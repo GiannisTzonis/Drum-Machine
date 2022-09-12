@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Drum Machine</title>
+    <link rel="stylesheet" href="styles.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Rakkas&family=Sedgwick+Ave+Display&display=swap" rel="stylesheet"> 
+
+</head>
+<body>
+    <main>
+    <img src="assets/background.jpg" alt="background">
+    
+    <div class="keys">
+    
+        <div data-key="65" class="key">
+            <kbd>A</kbd>
+            <span class="sound">Kick</span>
+        </div>
+
+        <div data-key="83" class="key">
+            <kbd>S</kbd>
+            <span class="sound">Kick 2</span>
+        </div>
+
+        <div data-key="68" class="key">
+            <kbd>D</kbd>
+            <span class="sound">Hi-Hat</span>
+        </div>
+
+        <div data-key="70" class="key">
+            <kbd>F</kbd>
+            <span class="sound">clap</span>
+        </div>
+
+        <div data-key="74" class="key">
+            <kbd>J</kbd>
+            <span class="sound">Snare</span>
+        </div>
+
+        <div data-key="75" class="key">
+            <kbd>K</kbd>
+            <span class="sound">snare-2</span>
+        </div>
+
+        <div data-key="76" class="key">
+            <kbd>L</kbd>
+            <span class="sound">crash</span>
+        </div>
+
+        <div data-key="73" class="key">
+            <kbd>I</kbd>
+            <span class="sound">bass</span>
+        </div>
+
+        <div data-key="79" class="key">
+            <kbd>O</kbd>
+            <span class="sound">bass-2</span>
+        </div>
+
+</div>
+</main>
+
+<audio data-key="65" src="assets/sounds/kick.wav"></audio>
+<audio data-key="83" src="assets/sounds/kick2.wav"></audio>
+<audio data-key="68" src="assets/sounds/hihat.wav"></audio>
+<audio data-key="70" src="assets/sounds/openhat.wav"></audio>
+<audio data-key="74" src="assets/sounds/snare.wav"></audio>
+<audio data-key="75" src="assets/sounds/snare2.wav"></audio>
+<audio data-key="76" src="assets/sounds/crash.wav"></audio>
+<audio data-key="73" src="assets/sounds/bass.wav"></audio>
+<audio data-key="79" src="assets/sounds/bass2.wav"></audio>
+
+
+
+
+    <script>
+
+        function playSound(e) {
+            
+            const audio = document.querySelector(`audio[data-key="${e.keyCode}"]`);
+            const key = document.querySelector(`.key[data-key="${e.keyCode}"]`);
+
+            if(!audio) return; //stop function from running all together
+
+            audio.currentTime = 0; //rewind to the astart
+            audio.play();
+            key.classList.add('playing');
+        }
+
+        function removeTransition(e) {
+            if (e.propertyName !== 'transform') return; //skip if its not a transform
+            this.classList.remove('playing');
+        }
+
+        const keys = document.querySelectorAll('.key');
+        keys.forEach(key => key.addEventListener('transitionend', removeTransition))
+        window.addEventListener('keydown', playSound);
+
+    </script>
+</body>
+</html>
